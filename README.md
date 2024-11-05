@@ -19,7 +19,6 @@ A real-time chat application built with Node.js using a microservices architectu
 - Persistent chat history
 
 ## Architecture
-
 The application is divided into several microservices:
 
 - **Auth Service**: Handles user authentication and profile management.
