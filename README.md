@@ -125,12 +125,3 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-### Tips for Customization
-- **Project Name and Description**: Make sure to customize the project name and description according to your specific application.
-- **Installation Instructions**: Add or modify instructions to reflect any other dependencies or setup processes that are unique to your project.
-- **API Endpoints**: Update the API endpoints section with accurate paths and methods based on what you've implemented.
-- **Testing**: Provide specific instructions on how to run tests if applicable.
-- **Contributing**: Update the contributing section to reflect your guidelines for contributions.
-```
