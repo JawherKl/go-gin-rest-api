@@ -2,7 +2,6 @@
 A real-time chat application built with Node.js using a microservices architecture. This application leverages WebSocket for real-time communication and traditional HTTP requests for user management features.
 
 ## Table of Contents
-
 - [Features](#features)
 - [Architecture](#architecture)
 - [Installation](#installation)
@@ -13,7 +12,6 @@ A real-time chat application built with Node.js using a microservices architectu
 - [License](#license)
 
 ## Features
-
 - User authentication (sign up, login, profile management)
 - Real-time chat messaging
 - Presence management (online/offline status)
