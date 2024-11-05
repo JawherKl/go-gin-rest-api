@@ -20,7 +20,6 @@ A real-time chat application built with Node.js using a microservices architectu
 
 ## Architecture
 The application is divided into several microservices:
-
 - **Auth Service**: Handles user authentication and profile management.
 - **Chat Service**: Manages real-time chat connections and message delivery.
 - **Presence Service**: Tracks user presence status (online/offline).
