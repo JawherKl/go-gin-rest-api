@@ -118,15 +118,12 @@ After starting all the services, you can use Postman or cURL to interact with th
 - `POST /notifications` - Send notifications
 
 ## Testing
-
 You can test the API using Postman or cURL as shown in the usage section. Consider using tools like Mocha or Jest for unit testing your services.
 
 ## Contributing
-
 Contributions are welcome! If you'd like to contribute to this project, please fork the repository and submit a pull request.
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ```
