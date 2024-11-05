@@ -1,127 +1,173 @@
-# Chat Application
-A real-time chat application built with Node.js using a microservices architecture. This application leverages WebSocket for real-time communication and traditional HTTP requests for user management features.
+# ChatApp Microservices
+
+ChatApp is a real-time chat application built using a microservices architecture with Node.js. The project uses WebSocket for bidirectional communication between clients and servers, and each service is designed to handle specific tasks within the chat ecosystem.
 
 ## Table of Contents
-- [Features](#features)
-- [Architecture](#architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Microservices Architecture](#microservices-architecture)
+4. [Setup and Installation](#setup-and-installation)
+5. [API Documentation](#api-documentation)
+6. [Design Patterns and Refactoring](#design-patterns-and-refactoring)
+7. [Future Enhancements](#future-enhancements)
+
+---
+
+## Project Overview
+
+ChatApp is a real-time chat application where users can:
+- Sign up, log in, and manage their profiles
+- Send and receive messages instantly
+- Get notifications for new messages
+- View online/offline status of other users
+
+This project is implemented using a microservices architecture to handle the different responsibilities of a chat app. WebSocket is the main protocol used for real-time chat, while HTTP is used for other operations such as user authentication and notifications.
 
 ## Features
-- User authentication (sign up, login, profile management)
-- Real-time chat messaging
-- Presence management (online/offline status)
-- Push notifications for new messages
-- Persistent chat history
 
-## Architecture
-The application is divided into several microservices:
-- **Auth Service**: Handles user authentication and profile management.
-- **Chat Service**: Manages real-time chat connections and message delivery.
-- **Presence Service**: Tracks user presence status (online/offline).
-- **Notification Service**: Sends push notifications to users.
-- **API Server**: Provides a unified interface for client interactions.
+1. **User Management**:
+   - Signup, Login, and Profile management using stateless API requests.
+   - Secure login and user authentication.
 
-## Installation
-To set up the project locally, follow these steps:
+2. **Real-time Messaging**:
+   - Bi-directional communication between clients and servers using WebSocket.
+   - Persistent connections for continuous chat sessions.
 
-1. Clone the repository:
+3. **Notifications**:
+   - Push notifications for new messages, even when users are offline.
 
+4. **Presence Status**:
+   - Real-time updates on users' online/offline status.
+   - Allows users to know when their contacts are available.
+
+5. **Chat History**:
+   - Chat history storage in a key-value store to retrieve previous messages when users log back in.
+
+## Microservices Architecture
+
+The ChatApp backend consists of the following microservices:
+
+1. **API Server**:
+   - Manages user registration, login, and profile-related operations.
+   - Exposes HTTP endpoints for CRUD operations on user data.
+   - Routes requests to appropriate services and performs authentication.
+
+2. **Chat Server**:
+   - Handles all chat-related WebSocket connections.
+   - Facilitates real-time messaging between users.
+   - Broadcasts messages to connected clients and manages message delivery.
+   - Stores chat history in a key-value store for quick access when users reconnect.
+
+3. **Notification Server**:
+   - Integrates with third-party notification services to push alerts to users.
+   - Sends notifications when users receive new messages or other alerts.
+
+4. **Presence Server**:
+   - Tracks users' online/offline statuses.
+   - Notifies other users when their contacts' statuses change.
+   - Manages WebSocket connections to detect presence status in real-time.
+
+## Setup and Installation
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- Redis (for presence tracking and chat history storage)
+
+### Installation Steps
+
+1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/JawherKl/chat-app.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
+   git clone https://github.com/jawherKl/chat-app.git
    cd chat-app
    ```
 
-3. Install the dependencies for each service:
-
-   For each microservice, navigate to its directory and run:
+2. **Install Dependencies for Each Service**:
+   Navigate to each service directory and install dependencies.
 
    ```bash
+   cd api-server
+   npm install
+
+   cd ../chat-server
+   npm install
+
+   cd ../notification-server
+   npm install
+
+   cd ../presence-server
    npm install
    ```
 
-4. Start the services:
-
-   You can start each service using Node.js. For example:
+3. **Start Each Microservice**:
+   Run each service in a separate terminal window.
 
    ```bash
-   # Start Auth Service
-   cd auth-server
+   # API Server
+   cd api-server
    node index.js
 
-   # Start Chat Service
+   # Chat Server
    cd ../chat-server
    node index.js
 
-   # Start Presence Service
-   cd ../presence-server
-   node index.js
-
-   # Start Notification Service
+   # Notification Server
    cd ../notification-server
    node index.js
+
+   # Presence Server
+   cd ../presence-server
+   node index.js
    ```
 
-## Usage
-After starting all the services, you can use Postman or cURL to interact with the API endpoints.
+4. **Testing**:
+   - Use Postman or `curl` commands to test HTTP endpoints (e.g., `/api/signup`, `/api/login`).
+   - Use WebSocket testing tools (e.g., `wscat` or Postman) to test WebSocket connections on the chat and presence servers.
 
-### Example cURL Requests
+## API Documentation
 
-1. **Sign Up**:
+### API Server
 
-   ```bash
-   curl -X POST http://localhost:5000/auth/signup -H "Content-Type: application/json" -d '{"username": "user1", "password": "password123"}'
-   ```
+- **POST /api/signup** - Registers a new user.
+- **POST /api/login** - Authenticates a user and returns a token.
+- **GET /api/profile** - Retrieves the profile of the logged-in user.
+  
+### Chat Server
 
-2. **Login**:
+- **WebSocket Endpoint** - `/chat` - Allows users to send and receive real-time messages.
 
-   ```bash
-   curl -X POST http://localhost:5000/auth/login -H "Content-Type: application/json" -d '{"username": "user1", "password": "password123"}'
-   ```
+### Notification Server
 
-3. **Update Presence**:
+- **POST /notify** - Sends a notification to a user about a new message or other events.
 
-   ```bash
-   curl -X POST http://localhost:6000/presence -H "Content-Type: application/json" -d '{"username": "user1", "status": "online"}'
-   ```
+### Presence Server
 
-4. **Send Message** (via the Chat Service):
+- **WebSocket Endpoint** - `/presence` - Tracks and updates users’ online/offline status.
 
-   ```bash
-   curl -X POST http://localhost:7000/chat/send -H "Content-Type: application/json" -d '{"from": "user1", "to": "user2", "message": "Hello!"}'
-   ```
+## Design Patterns and Refactoring
 
-## API Endpoints
+The ChatApp project incorporates the following design patterns for improved code maintainability and scalability:
 
-### Auth Service
-- `POST /auth/signup` - Register a new user
-- `POST /auth/login` - Authenticate user and retrieve a token
+1. **Factory Pattern**:
+   - Used to create instances of WebSocket clients and notification handlers dynamically.
 
-### Presence Service
-- `POST /presence` - Update user presence status
-- `GET /presence` - Retrieve the presence status of users
+2. **Observer Pattern**:
+   - Used for the presence service to notify clients about the status changes (online/offline) of other users.
 
-### Chat Service
-- `POST /chat/send` - Send a message
-- `GET /chat/history` - Retrieve chat history
+3. **Singleton Pattern**:
+   - Ensures only one instance of services like the Redis connection pool and WebSocket server.
 
-### Notification Service
-- `POST /notifications` - Send notifications
+4. **Service Registry**:
+   - Used to manage service discovery. The registry provides the client with the appropriate chat or presence server based on the current load.
 
-## Testing
-You can test the API using Postman or cURL as shown in the usage section. Consider using tools like Mocha or Jest for unit testing your services.
+5. **Router Pattern**:
+   - Routes incoming HTTP requests in the API server to specific microservices based on the endpoint.
 
-## Contributing
-Contributions are welcome! If you'd like to contribute to this project, please fork the repository and submit a pull request.
+## Future Enhancements
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Some possible enhancements include:
+
+- **Enhanced Notification Handling**: Integrate with more notification channels for flexible alerts.
+- **Load Balancing**: Add load balancers to distribute the workload across instances.
+- **Message Encryption**: Ensure message data security by adding end-to-end encryption.
+- **Scalable Key-Value Storage**: Use distributed databases to store chat history and ensure scalability.

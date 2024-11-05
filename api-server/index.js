@@ -10,10 +10,6 @@ app.get('/', (req, res) => {
     res.send('API Server is running!');
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`API Server listening on port ${PORT}`);
-});
 
 app.get('/chat/history', async (req, res) => {
     const { userId, limit = 10, offset = 0 } = req.query;
@@ -31,3 +27,8 @@ async function getChatHistory(userId, limit, offset) {
     return await db.query('SELECT * FROM messages WHERE user_id = $1 ORDER BY timestamp DESC LIMIT $2 OFFSET $3', 
                            [userId, limit, offset]);
 }
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`API Server listening on port ${PORT}`);
+});
