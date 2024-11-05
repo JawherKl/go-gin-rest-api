@@ -27,7 +27,6 @@ The application is divided into several microservices:
 - **API Server**: Provides a unified interface for client interactions.
 
 ## Installation
-
 To set up the project locally, follow these steps:
 
 1. Clone the repository:
