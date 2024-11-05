@@ -72,7 +72,6 @@ To set up the project locally, follow these steps:
    ```
 
 ## Usage
-
 After starting all the services, you can use Postman or cURL to interact with the API endpoints.
 
 ### Example cURL Requests
