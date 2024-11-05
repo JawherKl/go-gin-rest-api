@@ -3,7 +3,6 @@
 ChatApp is a real-time chat application built using a microservices architecture with Node.js. The project uses WebSocket for bidirectional communication between clients and servers, and each service is designed to handle specific tasks within the chat ecosystem.
 
 ## Table of Contents
-
 1. [Project Overview](#project-overview)
 2. [Features](#features)
 3. [Microservices Architecture](#microservices-architecture)
